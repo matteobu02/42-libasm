@@ -1,14 +1,16 @@
 ; main
 
-global _start
-extern ft_strlen
-
 section .data
-str: db "hello world!", 10, 0
+    test_string db "Hello", 0
 
 section .text
+	extern ft_strlen
+    global _start
 
 _start:
-	mov rdi, str
+	mov rdi, test_string
 	call ft_strlen
-	ret
+
+	mov rdi, rax
+	mov rax, 60
+	syscall
