@@ -38,7 +38,6 @@ clean:
 
 fclean:			
 				@rm -rf $(NAME) $(OBJDIR)
-				@echo "Library cleaned"
 
 re:				fclean all
 
@@ -48,4 +47,4 @@ $(OBJDIR)%.o:	$(SRCDIR)%.s
 $(OBJDIR):
 				@mkdir -p $(OBJDIR)
 
-.PHONY:			re clean fclean all
+.PHONY:			re clean fclean objs all

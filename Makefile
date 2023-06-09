@@ -23,7 +23,7 @@ all:			$(NAME)
 
 $(NAME):		$(OBJDIR) $(OBJS)
 				@make -C lib/
-				ld -o $(NAME) $(OBJDIR)main.o -Llib/ -lasm
+				ld $(OBJDIR)main.o -Llib/ -lasm -lc -o $(NAME)
 
 bonus:			$(OBJDIR) $(OBJS)
 				# TODO
