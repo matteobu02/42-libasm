@@ -16,8 +16,8 @@ increment:
 	inc rcx
 
 L1:
-	mov al, [rsi + rcx]
-	mov [rax + rcx], al
+	mov al, BYTE [rsi + rcx]
+	mov BYTE [rax + rcx], al
 	cmp al, 0
 	jne increment
 
