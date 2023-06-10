@@ -1,27 +1,22 @@
 ; char *ft_strcpy(char *dest, const char *src);
 
+
 section .text
 	global _ft_strcpy
 
 _ft_strcpy:
-	; prologue
-	;push rbp
-	;mov rbp, rsp
-
-	mov rax, rdi
-	xor rcx, rcx
-	jmp L1
-
-increment:
-	inc rcx
+	push rbp
+	mov rbp, rsp
+	mov rcx, -1
 
 L1:
+	inc rcx
 	mov al, BYTE [rsi + rcx]
-	mov BYTE [rax + rcx], al
+	mov BYTE [rdi + rcx], al
 	cmp al, 0
-	jne increment
+	jne L1
 
-	; epilogue
-	;mov rsp, rbp
-	;pop rbp
+	mov rax, rdi
+	mov rsp, rbp
+	pop rbp
 	ret
