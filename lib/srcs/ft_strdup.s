@@ -12,15 +12,17 @@ _ft_strdup:
 
 	push rdi
 	call _ft_strlen
+	inc rax
 	mov rdi, rax
-	inc rdi
 	call malloc wrt ..plt
 	cmp rax, 0
-	;jz malloc_failed
+	je endfunc
 	pop rsi
 	mov rdi, rax
 	call _ft_strcpy
 
+endfunc:
 	;mov rsp, rbp
 	;pop rbp
 	ret
+
