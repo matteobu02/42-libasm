@@ -4,7 +4,7 @@ section .text
 	global _ft_strdup
 	extern _ft_strlen
 	extern malloc
-	extern strcpy
+	extern _ft_strcpy
 
 _ft_strdup:
 	;push rbp
@@ -19,7 +19,7 @@ _ft_strdup:
 	;jz malloc_failed
 	pop rsi
 	mov rdi, rax
-	call strcpy wrt ..plt
+	call _ft_strcpy
 
 	;mov rsp, rbp
 	;pop rbp
