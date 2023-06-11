@@ -1,8 +1,8 @@
 #include <stdio.h>
 
-char *_ft_strdup(const char *s);
+char *ft_strchr(const char *s, int c);
 
 int main(void)
 {
-	return printf(_ft_strdup("lalala"));
+	return printf("%s\n", ft_strchr("fhsdflkhafhsdhflkshf", 'a'));
 }
