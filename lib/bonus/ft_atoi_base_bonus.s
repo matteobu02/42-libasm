@@ -11,19 +11,13 @@ _ft_atoi_base:
 	call _ft_strlen
 	cmp rax, 2
 	jl .base_len_err
-	.base_len_err:
-		xor rax, rax
-		pop rbp
-		ret
-	
-	; allocate 1 ints + 2 char* -> 20 bits
+
 	sub rsp, 20
 	mov QWORD [rsp], rsi		; s
 	mov QWORD [rsp + 8], rdi	; base
 	mov [rsp + 12], rax			; base_len
-
 	xor rcx, rcx
-	; check base content
+
 .base_check_loop:
 	cmp BYTE [rsp + 8 + rcx], 0
 	je .setup_parsing
@@ -57,8 +51,6 @@ _ft_atoi_base:
 	call ft_isspace
 	cmp rax, 0
 	jne .skip_spaces
-
-	; disgusting af but works
 	dec rcx
 
 .read_signs:
@@ -76,7 +68,15 @@ _ft_atoi_base:
 	call ft_strchr
 	cmp rax, 0
 	je .atoi_base_endfunc
-	; TODO: calculate
+
+	; actual op
+	sub rax, rdi
+	mov r10, [rsp + 20]
+	mov r11, [rsp + 16]
+	imul r10, r11
+	add r10, rax
+	mov [rsp + 20], r10
+
 	inc rcx
 	jmp .atoi_calculate
 
@@ -92,8 +92,15 @@ _ft_atoi_base:
 	pop rbp
 	ret
 
+.base_len_err:
+	xor rax, rax
+	pop rbp
+	ret
+
 .atoi_base_endfunc:
 	mov rax, [rsp + 20]
+	mov r10, [rsp + 16]
+	mul r10
 	add rsp, 28
 	pop rbp
 	ret
