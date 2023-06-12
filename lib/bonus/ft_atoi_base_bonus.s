@@ -11,6 +11,10 @@ _ft_atoi_base:
 	call _ft_strlen
 	cmp rax, 2
 	jl .base_len_err
+	.base_len_err:
+		xor rax, rax
+		pop rbp
+		ret
 	
 	; allocate 1 ints + 2 char* -> 20 bits
 	sub rsp, 20
@@ -22,7 +26,7 @@ _ft_atoi_base:
 	; check base content
 .base_check_loop:
 	cmp BYTE [rsp + 8 + rcx], 0
-	je .reset_counter
+	je .setup_parsing
 	mov dil, BYTE [rsp + 8 + rcx]
 	call ft_isspace
 	cmp rax, 0
@@ -39,8 +43,13 @@ _ft_atoi_base:
 	inc rcx
 	jmp .base_check_loop
 
-.reset_counter:
+.setup_parsing:
 	mov rcx, -1
+	sub rsp, 8
+	xor r10, r10
+	mov r11, 1
+	mov [rsp + 16], r11 ; sign = 1
+	mov [rsp + 20], r10	; ret = 0
 
 .skip_spaces:
 	inc rcx
@@ -49,15 +58,43 @@ _ft_atoi_base:
 	cmp rax, 0
 	jne .skip_spaces
 
+	; disgusting af but works
+	dec rcx
 
-.base_len_err:
-	xor rax, rax
-	pop rbp
-	ret
+.read_signs:
+	inc rcx
+	cmp BYTE [rsp + rcx], 43
+	je .read_signs
+	cmp BYTE [rsp + rcx], 45
+	je .set_sign
+
+.atoi_calculate:
+	cmp BYTE [rsp + rcx], 0
+	je .atoi_base_endfunc
+	mov sil, BYTE [rsp + rcx]
+	lea rdi, [rsp + 8]
+	call ft_strchr
+	cmp rax, 0
+	je .atoi_base_endfunc
+	; TODO: calculate
+	inc rcx
+	jmp .atoi_calculate
+
+.set_sign:
+	mov r11, [rsp + 12]
+	imul r11, -1
+	mov [rsp + 12], r11
+	jmp .read_signs
 
 .base_invalid:
 	xor rax, rax
 	add rsp, 20
+	pop rbp
+	ret
+
+.atoi_base_endfunc:
+	mov rax, [rsp + 20]
+	add rsp, 28
 	pop rbp
 	ret
 
