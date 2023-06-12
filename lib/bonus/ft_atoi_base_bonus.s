@@ -21,30 +21,30 @@ _ft_atoi_base:
 	xor rcx, rcx
 	; check base content
 .base_check_loop:
-	cmp BYTE [rel rsp + 8 + rcx], 0
+	cmp BYTE [rsp + 8 + rcx], 0
 	je .reset_counter
-	mov dil, BYTE [rel rsp + 8 + rcx]
+	mov dil, BYTE [rsp + 8 + rcx]
 	call ft_isspace
 	cmp rax, 0
 	jne .base_invalid
-	cmp BYTE [rel rsp + 8 + rcx], 43	; c == '+'
+	cmp BYTE [rsp + 8 + rcx], 43	; c == '+'
 	je .base_invalid
-	cmp BYTE [rel rsp + 8 + rcx], 45	; c == '-'
+	cmp BYTE [rsp + 8 + rcx], 45	; c == '-'
 	je .base_invalid
-	mov sil, BYTE [rel rsp + 8 + rcx]
-	lea rdi, [rel rsp + 8 + rcx + 1]
+	mov sil, BYTE [rsp + 8 + rcx]
+	lea rdi, [rsp + 8 + rcx + 1]
 	call ft_strchr
 	cmp rax, 0
 	jne .base_invalid
 	inc rcx
 	jmp .base_check_loop
 
-.reset_counter
+.reset_counter:
 	mov rcx, -1
 
 .skip_spaces:
 	inc rcx
-	mov dil, BYTE [rel rsp + rcx]
+	mov dil, BYTE [rsp + rcx]
 	call ft_isspace
 	cmp rax, 0
 	jne .skip_spaces
