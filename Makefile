@@ -3,9 +3,8 @@ ASM			=	nasm
 ASMFLAGS	=	-g -f
 SRCDIR		=	./tests/
 OBJDIR		=	./tests/objs/
-OS			=	$(shell uname)
 
-ifeq ($(OS), Linux)
+ifeq ($(shell uname), Linux)
 	ASMFLAGS += elf64
 else
 	ASMFLAGS += macho64
