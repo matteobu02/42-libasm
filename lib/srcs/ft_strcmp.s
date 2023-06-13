@@ -9,14 +9,14 @@ _ft_strcmp:
 .strcmp_loop:
 	inc rcx
 	cmp BYTE [rdi + rcx], 0
-	je endfunc
+	je .endfunc
 	cmp BYTE [rsi + rcx], 0
-	je endfunc
+	je .endfunc
 	mov al, BYTE [rdi + rcx]
 	cmp al, BYTE [rsi + rcx]
 	je .strcmp_loop
 
-endfunc:
+.endfunc:
 	movzx rax, BYTE [rdi + rcx]
 	movzx rdx, BYTE [rsi + rcx]
 	sub rax, rdx

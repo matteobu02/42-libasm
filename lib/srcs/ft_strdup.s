@@ -7,22 +7,17 @@ section .text
 	extern _ft_strcpy
 
 _ft_strdup:
-	;push rbp
-	;mov rbp, rsp
-
 	push rdi
 	call _ft_strlen
 	inc rax
 	mov rdi, rax
 	call malloc wrt ..plt
 	cmp rax, 0
-	je endfunc
+	je .endfunc
 	pop rsi
 	mov rdi, rax
 	call _ft_strcpy
 
-endfunc:
-	;mov rsp, rbp
-	;pop rbp
+.endfunc:
 	ret
 
