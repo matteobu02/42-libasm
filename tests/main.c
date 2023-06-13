@@ -1,8 +1,8 @@
 #include <stdio.h>
 
-char *ft_strchr(const char *s, int c);
+extern char ft_atoi_base(const char *s, const char *base);
 
 int main(void)
 {
-	return printf("%s\n", ft_strchr("fhsdflkhafhsdhflkshf", 'a'));
+	return printf("%d\n", ft_atoi_base("1234", "0123456789"));
 }
