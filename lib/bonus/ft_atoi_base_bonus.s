@@ -15,7 +15,7 @@ _ft_atoi_base:
 	sub rsp, 20
 	mov QWORD [rsp], rsi		; s
 	mov QWORD [rsp + 8], rdi	; base
-	mov [rsp + 12], rax			; base_len
+	mov DWORD [rsp + 16], eax	; base_len
 	xor rcx, rcx
 
 .base_check_loop:
@@ -31,7 +31,9 @@ _ft_atoi_base:
 	je .base_invalid
 	mov sil, BYTE [rsp + 8 + rcx]
 	lea rdi, [rsp + 8 + rcx + 1]
+	push rcx
 	call ft_strchr
+	pop rcx
 	cmp rax, 0
 	jne .base_invalid
 	inc rcx
@@ -42,8 +44,8 @@ _ft_atoi_base:
 	sub rsp, 8
 	xor r10, r10
 	mov r11, 1
-	mov [rsp + 16], r11 ; sign = 1
-	mov [rsp + 20], r10	; ret = 0
+	mov DWORD [rsp + 20], r11d 	; sign = 1
+	mov DWORD [rsp + 24], r10d	; ret = 0
 
 .skip_spaces:
 	inc rcx
@@ -65,25 +67,27 @@ _ft_atoi_base:
 	je .atoi_base_endfunc
 	mov sil, BYTE [rsp + rcx]
 	lea rdi, [rsp + 8]
+	push rcx
 	call ft_strchr
+	pop rcx
 	cmp rax, 0
 	je .atoi_base_endfunc
 
 	; actual op
 	sub rax, rdi
-	mov r10, [rsp + 20]
-	mov r11, [rsp + 16]
+	mov r10d, DWORD [rsp + 20]
+	mov r11d, DWORD [rsp + 16]
 	imul r10, r11
 	add r10, rax
-	mov [rsp + 20], r10
+	mov DWORD [rsp + 20], r10d
 
 	inc rcx
 	jmp .atoi_calculate
 
 .set_sign:
-	mov r11, [rsp + 12]
+	mov r11d, DWORD [rsp + 16]
 	imul r11, -1
-	mov [rsp + 12], r11
+	mov DWORD [rsp + 16], r11d
 	jmp .read_signs
 
 .base_invalid:
@@ -98,8 +102,8 @@ _ft_atoi_base:
 	ret
 
 .atoi_base_endfunc:
-	mov rax, [rsp + 20]
-	mov r10, [rsp + 16]
+	mov eax, DWORD [rsp + 20]
+	mov r10d, DWORD [rsp + 16]
 	mul r10
 	add rsp, 28
 	pop rbp
