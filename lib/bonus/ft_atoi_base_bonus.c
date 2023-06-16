@@ -6,13 +6,13 @@ int	ft_atoi_base(const char *s, const char *base)
 	int base_len = strlen(base);
 	if (base_len < 2)
 		return 0;
-	while (*base)
+	int i = -1;
+	while (base[++i])
 	{
-		if (isspace(*base) || (*base == '+') || (*base == '-') || strchr(base + 1, *base))
+		if (isspace(base[i]) || (base[i] == '+') || (base[i] == '-')
+			|| strchr(base + i + 1, base[i]))
 			return 0;
-		++base;
 	}
-	base -= base_len;
 	while (isspace(*s))
 		++s;
 	int sign = 1;

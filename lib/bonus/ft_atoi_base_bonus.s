@@ -17,25 +17,30 @@ _ft_atoi_base:
 	mov QWORD [rsp + 8], rdi	; base
 	mov DWORD [rsp + 16], eax	; base_len
 	xor rcx, rcx
+	mov rdx, rdi
 
 .base_check_loop:
-	cmp BYTE [rsp + 8 + rcx], 0
+	mov al, BYTE [rdx + rcx]
+	cmp al, 0
 	je .setup_parsing
-	mov dil, BYTE [rsp + 8 + rcx]
+	cmp al, '+'
+	je .base_invalid
+	cmp al, '-'
+	je .base_invalid
+
+	mov dil, al
 	call ft_isspace
 	cmp rax, 0
 	jne .base_invalid
-	cmp BYTE [rsp + 8 + rcx], 43	; c == '+'
-	je .base_invalid
-	cmp BYTE [rsp + 8 + rcx], 45	; c == '-'
-	je .base_invalid
-	mov sil, BYTE [rsp + 8 + rcx]
-	lea rdi, [rsp + 8 + rcx + 1]
+
+	mov sil, dil
+	lea rdi, [rdx + rcx + 1]
 	push rcx
 	call ft_strchr
 	pop rcx
 	cmp rax, 0
 	jne .base_invalid
+
 	inc rcx
 	jmp .base_check_loop
 
@@ -46,10 +51,11 @@ _ft_atoi_base:
 	mov r11, 1
 	mov DWORD [rsp + 20], r11d 	; sign = 1
 	mov DWORD [rsp + 24], r10d	; ret = 0
+	lea rdx, [rsp] ; TODO: PROBLEM
 
 .skip_spaces:
 	inc rcx
-	mov dil, BYTE [rsp + rcx]
+	mov dil, BYTE [rdx + rcx]
 	call ft_isspace
 	cmp rax, 0
 	jne .skip_spaces
@@ -57,15 +63,15 @@ _ft_atoi_base:
 
 .read_signs:
 	inc rcx
-	cmp BYTE [rsp + rcx], 43
+	cmp BYTE [rdx + rcx], '+'
 	je .read_signs
-	cmp BYTE [rsp + rcx], 45
+	cmp BYTE [rdx + rcx], '-'
 	je .set_sign
 
 .atoi_calculate:
-	cmp BYTE [rsp + rcx], 0
+	cmp BYTE [rdx + rcx], 0
 	je .atoi_base_endfunc
-	mov sil, BYTE [rsp + rcx]
+	mov sil, BYTE [rdx + rcx]
 	lea rdi, [rsp + 8]
 	push rcx
 	call ft_strchr
