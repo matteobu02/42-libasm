@@ -64,6 +64,7 @@ _ft_atoi_base:
 	cmp BYTE [rdx + rcx], '-'
 	je .set_sign
 
+.setup_calculation:
 	mov DWORD [rsp + 20], r10d	; save sign
 	mov rdi, QWORD [rsp + 8]	; rdi = base
 	mov r11d, DWORD [rsp + 16]	; r11d = base_len
