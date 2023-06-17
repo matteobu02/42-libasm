@@ -6,7 +6,7 @@ section .text
 _ft_atoi_base:
 	push rbp
 	mov rbp, rsp
-	sub rsp, 24
+	sub rsp, 24	; str + base + base_len + sign
 
 	xchg rdi, rsi
 	call _ft_strlen
@@ -21,15 +21,14 @@ _ft_atoi_base:
 	mov rdx, rdi
 
 .check_base:
-	mov al, BYTE [rdx + rcx]
-	cmp al, 0
+	cmp BYTE [rdx + rcx], 0
 	je .setup_parsing
-	cmp al, '+'
+	cmp BYTE [rdx + rcx], '+'
 	je .base_invalid
-	cmp al, '-'
+	cmp BYTE [rdx + rcx], '-'
 	je .base_invalid
 
-	mov dil, al
+	mov dil, BYTE [rdx + rcx]
 	call ft_isspace
 	cmp rax, 0
 	jne .base_invalid
@@ -48,7 +47,7 @@ _ft_atoi_base:
 .setup_parsing:
 	mov rcx, -1
 	mov rdx, QWORD [rsp]
-	mov r10d, 1
+	mov r10d, 1		; sign = 1
 
 .skip_spaces:
 	inc rcx
@@ -66,7 +65,7 @@ _ft_atoi_base:
 	je .set_sign
 
 	mov DWORD [rsp + 20], r10d	; save sign
-	mov rdi, QWORD [rsp + 8]	; rid = base
+	mov rdi, QWORD [rsp + 8]	; rdi = base
 	mov r11d, DWORD [rsp + 16]	; r11d = base_len
 	xor r10, r10				; ret = 0
 
