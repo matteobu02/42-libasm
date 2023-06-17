@@ -12,10 +12,13 @@ _ft_atoi_base:
 	cmp rax, 2
 	jl .base_len_err
 
-	sub rsp, 20
-	mov QWORD [rsp], rsi		; s
+	sub rsp, 28
+	mov QWORD [rsp], rsi		; str
 	mov QWORD [rsp + 8], rdi	; base
 	mov DWORD [rsp + 16], eax	; base_len
+	mov DWORD [rsp + 20], 1		; sign
+	mov DWORD [rsp + 24], 0		; ret
+
 	xor rcx, rcx
 	mov rdx, rdi
 
@@ -46,12 +49,7 @@ _ft_atoi_base:
 
 .setup_parsing:
 	mov rcx, -1
-	sub rsp, 8
-	xor r10, r10
-	mov r11, 1
-	mov DWORD [rsp + 20], r11d 	; sign = 1
-	mov DWORD [rsp + 24], r10d	; ret = 0
-	lea rdx, [rsp] ; TODO: PROBLEM
+	mov rdx, QWORD [rsp]
 
 .skip_spaces:
 	inc rcx
@@ -72,7 +70,7 @@ _ft_atoi_base:
 	cmp BYTE [rdx + rcx], 0
 	je .atoi_base_endfunc
 	mov sil, BYTE [rdx + rcx]
-	lea rdi, [rsp + 8]
+	mov rdi, QWORD [rsp + 8]
 	push rcx
 	call ft_strchr
 	pop rcx
@@ -81,11 +79,11 @@ _ft_atoi_base:
 
 	; actual op
 	sub rax, rdi
-	mov r10d, DWORD [rsp + 20]
+	mov r10d, DWORD [rsp + 24]
 	mov r11d, DWORD [rsp + 16]
 	imul r10, r11
 	add r10, rax
-	mov DWORD [rsp + 20], r10d
+	mov DWORD [rsp + 24], r10d
 
 	inc rcx
 	jmp .atoi_calculate
@@ -98,7 +96,7 @@ _ft_atoi_base:
 
 .base_invalid:
 	xor rax, rax
-	add rsp, 20
+	add rsp, 28
 	pop rbp
 	ret
 
@@ -109,7 +107,7 @@ _ft_atoi_base:
 
 .atoi_base_endfunc:
 	mov eax, DWORD [rsp + 20]
-	mov r10d, DWORD [rsp + 16]
+	mov r10d, DWORD [rsp + 24]
 	mul r10
 	add rsp, 28
 	pop rbp
