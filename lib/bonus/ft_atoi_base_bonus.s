@@ -6,18 +6,16 @@ section .text
 _ft_atoi_base:
 	push rbp
 	mov rbp, rsp
-
-	sub rsp, 28
-	mov QWORD [rsp], rdi		; str
-	mov QWORD [rsp + 8], rsi	; base
-	mov DWORD [rsp + 16], eax	; base_len
-	mov DWORD [rsp + 20], 1		; sign
-	mov DWORD [rsp + 24], 0		; ret
+	sub rsp, 24
 
 	xchg rdi, rsi
 	call _ft_strlen
 	cmp rax, 2
 	jl .base_invalid
+
+	mov QWORD [rsp], rsi		; str
+	mov QWORD [rsp + 8], rdi	; base
+	mov DWORD [rsp + 16], eax	; base_len
 
 	xor rcx, rcx
 	mov rdx, rdi
@@ -50,6 +48,7 @@ _ft_atoi_base:
 .setup_parsing:
 	mov rcx, -1
 	mov rdx, QWORD [rsp]
+	mov r10d, 1
 
 .skip_spaces:
 	inc rcx
@@ -66,45 +65,45 @@ _ft_atoi_base:
 	cmp BYTE [rdx + rcx], '-'
 	je .set_sign
 
+	mov DWORD [rsp + 20], r10d	; save sign
+	mov rdi, QWORD [rsp + 8]	; rid = base
+	mov r11d, DWORD [rsp + 16]	; r11d = base_len
+	xor r10, r10				; ret = 0
+
 .calculate:
 	cmp BYTE [rdx + rcx], 0
-	je .endfunc
+	je .get_ret
 	mov sil, BYTE [rdx + rcx]
-	mov rdi, QWORD [rsp + 8]
 	push rcx
 	call ft_strchr
 	pop rcx
 	cmp rax, 0
-	je .endfunc
+	je .get_ret
 
 	; actual op
 	sub rax, rdi
-	mov r10d, DWORD [rsp + 24]
-	mov r11d, DWORD [rsp + 16]
 	imul r10, r11
 	add r10, rax
-	mov DWORD [rsp + 24], r10d
 
 	inc rcx
 	jmp .calculate
 
 .set_sign:
-	mov r11d, DWORD [rsp + 16]
-	imul r11, -1
-	mov DWORD [rsp + 16], r11d
+	imul r10d, -1
 	jmp .read_signs
 
 .base_invalid:
 	xor rax, rax
-	add rsp, 28
-	pop rbp
-	ret
+	jmp .endfunc
+
+.get_ret:
+	mov eax, DWORD [rsp + 20]
+	mul r10
 
 .endfunc:
-	mov eax, DWORD [rsp + 20]
-	mov r10d, DWORD [rsp + 24]
-	mul r10
-	add rsp, 28
+	mov rsi, QWORD [rsp + 8]
+	mov rdi, QWORD [rsp]
+	add rsp, 24
 	pop rbp
 	ret
 
