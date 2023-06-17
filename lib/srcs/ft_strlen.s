@@ -5,8 +5,8 @@ section .text
 
 _ft_strlen:
 	mov rax, -1
-.strlen_loop:
+.loop:
 	inc rax
 	cmp byte [rdi + rax], 0
-	jne .strlen_loop
+	jne .loop
 	ret

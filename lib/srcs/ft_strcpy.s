@@ -6,11 +6,11 @@ section .text
 _ft_strcpy:
 	mov rcx, -1
 
-.strcpy_loop:
+.loop:
 	inc rcx
 	mov al, BYTE [rsi + rcx]
 	mov BYTE [rdi + rcx], al
 	cmp al, 0
-	jne .strcpy_loop
+	jne .loop
 	mov rax, rdi
 	ret

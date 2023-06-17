@@ -6,7 +6,7 @@ section .text
 _ft_strcmp:
 	mov rcx, -1
 
-.strcmp_loop:
+.loop:
 	inc rcx
 	cmp BYTE [rdi + rcx], 0
 	je .endfunc
@@ -14,7 +14,7 @@ _ft_strcmp:
 	je .endfunc
 	mov al, BYTE [rdi + rcx]
 	cmp al, BYTE [rsi + rcx]
-	je .strcmp_loop
+	je .loop
 
 .endfunc:
 	movzx rax, BYTE [rdi + rcx]
