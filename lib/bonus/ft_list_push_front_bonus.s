@@ -4,6 +4,8 @@ section .text
 
 ; void ft_list_push_front(t_list **begin_list, void *data);
 _ft_list_push_front:
+	cmp rdi, 0
+	je endfunc
 	push rdi
 	mov rdi, rsi
 	call ft_create_elem
