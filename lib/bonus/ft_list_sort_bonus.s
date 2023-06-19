@@ -3,8 +3,6 @@ section .text
 
 ; void ft_list_sort( t_list **begin_list, int (*cmp)() );
 _ft_list_sort:
-	push rdi
-	push rsi
 	cmp rdi, 0
 	je .endfunc
 	cmp rsi, 0
@@ -44,6 +42,4 @@ _ft_list_sort:
 	jmp .second_loop
 
 .endfunc:
-	pop rsi
-	pop rdi
 	ret

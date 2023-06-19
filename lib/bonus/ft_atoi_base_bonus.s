@@ -101,8 +101,6 @@ _ft_atoi_base:
 	mul r10
 
 .endfunc:
-	mov rsi, QWORD [rsp + 8]
-	mov rdi, QWORD [rsp]
 	add rsp, 24
 	pop rbp
 	ret
