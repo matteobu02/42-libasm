@@ -22,7 +22,9 @@ _ft_list_sort:
 
 	mov rdi, QWORD [r10]		; rdi = r10->data
 	mov rsi, QWORD [r11]		; rsi = r11->data
-	call QWORD [rdx]
+	push rdx
+	call rdx
+	pop rdx
 	cmp rax, 0
 	jl .swap_ptr
 

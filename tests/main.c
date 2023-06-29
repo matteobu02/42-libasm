@@ -35,31 +35,31 @@ int ccmp(char *a, char *b)
 
 int main()
 {
-	char *s = _ft_strdup("VIVE L'ASM <3");
-	printf("%s\n", s); 
-	printf("Mystrlen[%zu]\nRealstrlen[%zu]\n", _ft_strlen(s), strlen(s));
-	printf("Mystrcmp[%d]\nRealstrcmp[%d]\n", _ft_strcmp(s, "OUI"), strcmp(s, "OUI"));
+	//char *s = _ft_strdup("VIVE L'ASM <3");
+	//printf("%s\n", s); 
+	//printf("Mystrlen[%zu]\nRealstrlen[%zu]\n", _ft_strlen(s), strlen(s));
+	//printf("Mystrcmp[%d]\nRealstrcmp[%d]\n", _ft_strcmp(s, "OUI"), strcmp(s, "OUI"));
 	//char buff[16] = {0};
 	//printf("Write a string of max 16 char I'll read it and write it back to you\n");
 	//_ft_read(0, buff, 16);
 	//printf("Reading..\n");
 	//_ft_write(1, buff, 16);
-	printf("Time to test bonuses !\n");
+	//printf("Time to test bonuses !\n");
 	char a[] = "a";
 	char b[] = "b";
 	char c[] = "c";
 	char d[] = "d";
 	char e[] = "e";
 	char f[] = "f";
-	printf("SHOULD BE '-15':[%d]\n", _ft_atoi_base("+-++f", "0123456789abcedf"));		//HEX
-	printf("SHOULD BE '255':[%d]\n", _ft_atoi_base("+-++-ff", "0123456789abcedf"));	//HEX
-	printf("SHOULD BE '-15':[%d]\n", _ft_atoi_base("        +-f", "0123456789abcedf"));//HEX
-	printf("SHOULD BE '29':[%d]\n", _ft_atoi_base("       ---+-++11101", "01"));		//BINARY
-	printf("SHOULD BE '0':[%d]\n", _ft_atoi_base("",""));
+	//printf("SHOULD BE '-15':[%d]\n", _ft_atoi_base("+-++f", "0123456789abcedf"));		//HEX
+	//printf("SHOULD BE '255':[%d]\n", _ft_atoi_base("+-++-ff", "0123456789abcedf"));	//HEX
+	//printf("SHOULD BE '-15':[%d]\n", _ft_atoi_base("        +-f", "0123456789abcedf"));//HEX
+	//printf("SHOULD BE '29':[%d]\n", _ft_atoi_base("       ---+-++11101", "01"));		//BINARY
+	//printf("SHOULD BE '0':[%d]\n", _ft_atoi_base("",""));
 	t_list *lst = malloc(sizeof(t_list));
 	t_list **blst = &lst;
 	lst->data = a;
-	printf("SHOULD BE '1':[%d]\n", _ft_list_size(*blst));
+	//printf("SHOULD BE '1':[%d]\n", _ft_list_size(*blst));
 	_ft_list_push_front(blst, f);
 	_ft_list_push_front(blst, c);
 	_ft_list_push_front(blst, f);
