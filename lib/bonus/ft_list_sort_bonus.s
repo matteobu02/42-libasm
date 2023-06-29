@@ -14,31 +14,31 @@ _ft_list_sort:
 .first_loop:
 	cmp r10, 0
 	je .endfunc
-	mov r11, QWORD [r10]		; r11 = r10->next
+	mov r11, QWORD [r10 + 8]	; r11 = r10->next
 
 .second_loop:
 	cmp r11, 0
 	je .incr_first
 
-	mov rdi, QWORD [r10 + 8]	; rdi = r10->data
-	mov rsi, QWORD [r11 + 8]	; rsi = r11->data
+	mov rdi, QWORD [r10]		; rdi = r10->data
+	mov rsi, QWORD [r11]		; rsi = r11->data
 	call QWORD [rdx]
 	cmp rax, 0
 	jl .swap_ptr
 
 .incr_second:
-	mov r11, QWORD [r11]
+	mov r11, QWORD [r11 + 8]
 	jmp .second_loop
 
 .incr_first:
-	mov r10, QWORD [r10]
+	mov r10, QWORD [r10 + 8]
 	jmp .first_loop
 
 .swap_ptr:
 	mov rax, rdi
 	mov rdi, rsi
 	mov rsi, rax
-	mov r11, QWORD [r10]
+	mov r11, QWORD [r10 + 8]
 	jmp .second_loop
 
 .endfunc:

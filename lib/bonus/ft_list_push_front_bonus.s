@@ -12,20 +12,20 @@ _ft_list_push_front:
 	pop rdi
 	cmp rax, 0
 	je endfunc
-	mov r10, QWORD [rdi]
-	mov QWORD [rax], r10
-	mov QWORD [rdi], rax
+	mov r10, QWORD [rdi]		; r10 = *begin_list
+	mov QWORD [rax + 8], r10	; ret->next = r10
+	mov QWORD [rdi], rax		; *begin_list = ret
 	jmp endfunc
 
 ; t_list *ft_create_elem(void *data);
 ft_create_elem:
-	mov r10, rdi
-	mov rdi, 16			; sizeof(t_list) = 16
+	mov r10, rdi			; r10 = data
+	mov rdi, 16				; sizeof(t_list) = 16
 	call malloc wrt ..plt
 	cmp rax, 0
 	je endfunc
-	mov QWORD [rax], 0	; ret->next = NULL
-	mov QWORD [rax + 8], r10
+	mov QWORD [rax], r10	; ret->data = r10
+	mov QWORD [rax + 8], 0	; ret->next = 0
 
 endfunc:
 	ret

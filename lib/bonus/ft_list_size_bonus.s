@@ -10,7 +10,7 @@ _ft_list_size:
 	cmp rdi, 0
 	je .endfunc
 	inc rax
-	mov rdi, QWORD [rdi]
+	mov rdi, QWORD [rdi + 8]
 	jmp .loop
 
 .endfunc:
