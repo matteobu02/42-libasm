@@ -25,8 +25,8 @@ _ft_list_sort:
 	push rdx
 	call rdx
 	pop rdx
-	cmp rax, 0
-	jl .swap_ptr
+	cmp eax, 0
+	jg .swap_ptr
 
 .incr_second:
 	mov r11, QWORD [r11 + 8]
@@ -38,10 +38,9 @@ _ft_list_sort:
 
 .swap_ptr:
 	mov rax, rdi
-	mov rdi, rsi
-	mov rsi, rax
-	mov r11, QWORD [r10 + 8]
-	jmp .second_loop
+	mov QWORD [r10], rsi
+	mov QWORD [r11], rax
+	jmp .incr_second
 
 .endfunc:
 	ret
