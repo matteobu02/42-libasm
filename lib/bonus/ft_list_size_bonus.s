@@ -1,8 +1,9 @@
+; int ft_list_size(t_list *begin_list);
+
+global _ft_list_size
 
 section .text
-	global _ft_list_size
 
-; int ft_list_size(t_list *begin_list);
 _ft_list_size:
 	xor rax, rax
 

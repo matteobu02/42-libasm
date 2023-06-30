@@ -1,12 +1,14 @@
-section .text
-	global _ft_list_remove_if
-	extern free
-
 ; void ft_list_remove_if(	t_list **begin_list,
 ; 							void *data_ref,
 ; 							int (*cmp)(),
 ; 							void (*free_fct)(void*)
 ; );
+
+global _ft_list_remove_if
+extern free
+
+section .text
+
 _ft_list_remove_if:
 	cmp rdi, 0
 	je .endfunc
@@ -36,7 +38,8 @@ _ft_list_remove_if:
 	jne .main_remove
 
 	mov r11, QWORD [r10 + 8]	; r11 = r10->next
-	lea QWORD [rsp], r11		; *begin_list = r11
+	mov rcx, QWORD [r11]
+	mov QWORD [rsp], rcx		; *begin_list = r11
 
 	mov rcx, QWORD [rsp + 16]	; rcx = free_fct
 	call rcx

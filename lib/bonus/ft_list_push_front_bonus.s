@@ -1,8 +1,10 @@
-section .text
-	global _ft_list_push_front
-	extern malloc
-
 ; void ft_list_push_front(t_list **begin_list, void *data);
+
+global _ft_list_push_front
+extern malloc
+
+section .text
+
 _ft_list_push_front:
 	cmp rdi, 0
 	je endfunc

@@ -1,7 +1,9 @@
-section .text
-	global _ft_list_sort
-
 ; void ft_list_sort( t_list **begin_list, int (*cmp)() );
+
+global _ft_list_sort
+
+section .text
+
 _ft_list_sort:
 	cmp rdi, 0
 	je .endfunc

@@ -23,7 +23,7 @@ B_SRC		=	ft_atoi_base_bonus.s		\
 				ft_list_push_front_bonus.s	\
 				ft_list_size_bonus.s		\
 				ft_list_sort_bonus.s		\
-				#ft_list_remove_if_bonus.s	\
+				ft_list_remove_if_bonus.s	\
 
 OBJ		=	${addprefix $(OBJDIR), $(SRC:%.s=%.o)}
 B_OBJ		=	${addprefix $(OBJDIR), $(B_SRC:%.s=%.o)}

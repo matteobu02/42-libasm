@@ -1,8 +1,10 @@
-section .text
-	global _ft_atoi_base
-	extern _ft_strlen
-
 ; int ft_atoi_base(const char *str, const char *base);
+
+global _ft_atoi_base
+extern _ft_strlen
+
+section .text
+
 _ft_atoi_base:
 	push rbp
 	mov rbp, rsp

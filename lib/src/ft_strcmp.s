@@ -1,7 +1,8 @@
 ; int ft_strcmp(const char *s1, const char *s2);
 
+global _ft_strcmp
+
 section .text
-	global _ft_strcmp
 
 _ft_strcmp:
 	mov rcx, -1

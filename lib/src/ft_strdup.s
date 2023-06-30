@@ -1,10 +1,11 @@
 ; char *ft_strdup(const char *s);
 
+global _ft_strdup
+extern _ft_strlen
+extern malloc
+extern _ft_strcpy
+
 section .text
-	global _ft_strdup
-	extern _ft_strlen
-	extern malloc
-	extern _ft_strcpy
 
 _ft_strdup:
 	push rdi
