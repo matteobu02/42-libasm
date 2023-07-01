@@ -1,7 +1,7 @@
 ; void ft_list_push_front(t_list **begin_list, void *data);
 
 global _ft_list_push_front
-extern malloc
+extern _malloc
 
 section .text
 
@@ -23,7 +23,7 @@ _ft_list_push_front:
 ft_create_elem:
 	mov r10, rdi			; r10 = data
 	mov rdi, 16				; sizeof(t_list) = 16
-	call malloc wrt ..plt
+	call _malloc
 	cmp rax, 0
 	je endfunc
 	mov QWORD [rax], r10	; ret->data = r10

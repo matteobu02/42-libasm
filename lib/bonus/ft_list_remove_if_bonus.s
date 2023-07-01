@@ -5,7 +5,7 @@
 ; );
 
 global _ft_list_remove_if
-extern free
+extern _free
 
 section .text
 
@@ -44,7 +44,7 @@ _ft_list_remove_if:
 	mov rcx, QWORD [rsp + 16]	; rcx = free_fct
 	call rcx
 	mov rdi, r10
-	call free wrt ..plt
+	call _free
 	jmp .remove_begin
 
 .main_remove:
@@ -64,7 +64,7 @@ _ft_list_remove_if:
 	mov rcx, QWORD [rsp + 16]	; rcx = free_fct
 	call rcx
 	mov rdi, r11
-	call free wrt ..plt
+	call _free
 
 .increment_ptr:
 	mov r10, QWORD [r10 + 8]
