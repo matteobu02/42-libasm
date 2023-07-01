@@ -36,7 +36,7 @@ int ccmp(char *a, char *b)
 int main()
 {
 	char *s = _ft_strdup("VIVE L'ASM <3");
-	printf("%s\n", s); 
+	printf("%s\n", s);
 	printf("Mystrlen[%zu]\nRealstrlen[%zu]\n", _ft_strlen(s), strlen(s));
 	printf("Mystrcmp[%d]\nRealstrcmp[%d]\n", _ft_strcmp(s, "OUI"), strcmp(s, "OUI"));
 	char buff[16] = {0};
@@ -50,25 +50,24 @@ int main()
 	printf("SHOULD BE '-15':[%d]\n", _ft_atoi_base("        +-f", "0123456789abcedf"));//HEX
 	printf("SHOULD BE '29':[%d]\n", _ft_atoi_base("       ---+-++11101", "01"));		//BINARY
 	printf("SHOULD BE '0':[%d]\n", _ft_atoi_base("",""));
-	char a[] = "a";
-	char b[] = "b";
-	char c[] = "c";
-	char d[] = "d";
-	char e[] = "e";
-	char f[] = "f";
+	char *a = _ft_strdup("a");
+	char *b = _ft_strdup("b");
+	char *c = _ft_strdup("c");
+	char *d = _ft_strdup("d");
+	char *e = _ft_strdup("e");
 	t_list *lst = malloc(sizeof(t_list));
 	t_list **blst = &lst;
 	lst->data = a;
 	printf("SHOULD BE '1':[%d]\n", _ft_list_size(*blst));
-	_ft_list_push_front(blst, f);
+	_ft_list_push_front(blst, e);
 	_ft_list_push_front(blst, c);
-	_ft_list_push_front(blst, f);
+	_ft_list_push_front(blst, e);
 	_ft_list_push_front(blst, b);
 	_ft_list_push_front(blst, d);
 	t_list *tlst = lst;
 	printf("New size of the list = [%d]\n", _ft_list_size(lst));
 	printf("Here's a display of the element's data in order\n");
-	printf("SHOULD BE [d][b][f][c][f][a]\n");
+	printf("SHOULD BE [d][b][e][c][e][a]\n");
 	while (tlst)
 	{
 		printf("[%s]", (char *)tlst->data);
@@ -85,7 +84,7 @@ int main()
 	}
 	printf("\n");
 	printf("LIST SORTED\n");
-	printf("SHOULD BE [a][b][c][d][f][f]\n");
+	printf("SHOULD BE [a][b][c][d][e][e]\n");
 	printf("Removing elements with data 'c'\n");
 	_ft_list_remove_if(blst, c, &ccmp, &free);
 	tlst = lst;
