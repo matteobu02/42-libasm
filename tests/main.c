@@ -2,6 +2,7 @@
 #include <string.h>
 #include <fcntl.h>
 #include <stdlib.h>
+#include <unistd.h>
 
 typedef struct	s_list
 {
@@ -20,12 +21,11 @@ extern int		_ft_atoi_base(const char *str, const char *base);
 extern void		_ft_list_push_front(t_list **begin_list, void *data);
 extern int		_ft_list_size(t_list *begin_list);
 extern int		_ft_list_sort(t_list **begin, int (*cmp)());
-extern int		_ft_list_remove_if(t_list **begin_list, void *data_ref, int (*cmp)(), void (*free_fct)(void *));
+extern void		_ft_list_remove_if(t_list **begin_list, void *data_ref, int (*cmp)(), void (*free_fct)(void *));
 
 /*
 ** THIS IS A TESTER
 */
-
 
 //Char compare used to test list functions
 int ccmp(char *a, char *b)
@@ -94,6 +94,6 @@ int main()
 		tlst = tlst->next;
 	}
 	printf("\n");
-	printf("SHOULD BE [a][b][d][f][f]\n");
+	printf("SHOULD BE [a][b][d][e][e]\n");
 	printf("By now you should understand that my lib works :D !\n");
 }
