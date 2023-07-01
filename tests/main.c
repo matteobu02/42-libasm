@@ -45,17 +45,17 @@ int main()
 	printf("Reading..\n");
 	_ft_write(1, buff, 16);
 	printf("Time to test bonuses !\n");
+	printf("SHOULD BE '-15':[%d]\n", _ft_atoi_base("+-++f", "0123456789abcedf"));		//HEX
+	printf("SHOULD BE '255':[%d]\n", _ft_atoi_base("+-++-ff", "0123456789abcedf"));	//HEX
+	printf("SHOULD BE '-15':[%d]\n", _ft_atoi_base("        +-f", "0123456789abcedf"));//HEX
+	printf("SHOULD BE '29':[%d]\n", _ft_atoi_base("       ---+-++11101", "01"));		//BINARY
+	printf("SHOULD BE '0':[%d]\n", _ft_atoi_base("",""));
 	char a[] = "a";
 	char b[] = "b";
 	char c[] = "c";
 	char d[] = "d";
 	char e[] = "e";
 	char f[] = "f";
-	printf("SHOULD BE '-15':[%d]\n", _ft_atoi_base("+-++f", "0123456789abcedf"));		//HEX
-	printf("SHOULD BE '255':[%d]\n", _ft_atoi_base("+-++-ff", "0123456789abcedf"));	//HEX
-	printf("SHOULD BE '-15':[%d]\n", _ft_atoi_base("        +-f", "0123456789abcedf"));//HEX
-	printf("SHOULD BE '29':[%d]\n", _ft_atoi_base("       ---+-++11101", "01"));		//BINARY
-	printf("SHOULD BE '0':[%d]\n", _ft_atoi_base("",""));
 	t_list *lst = malloc(sizeof(t_list));
 	t_list **blst = &lst;
 	lst->data = a;
