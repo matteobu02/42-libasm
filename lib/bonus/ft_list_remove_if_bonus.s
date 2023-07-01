@@ -28,8 +28,7 @@ _ft_list_remove_if:
 	mov QWORD [rsp + 8], rdx
 	mov QWORD [rsp + 16], rcx
 
-	mov r10, QWORD [rsp]		; r10 = begin_list
-	mov r10, QWORD [r10]		; r10 = *begin_list
+	mov r10, QWORD [rdi]		; r10 = *begin_list
 
 .rm_loop:
 	cmp r10, 0
