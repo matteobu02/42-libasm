@@ -1,8 +1,6 @@
-NAME		=	test
-ASM			=	nasm
-ASMFLAGS	=	-g -f
-SRCDIR		=	./tests/
-OBJDIR		=	./tests/objs/
+NAME	=	test
+CC		=	gcc
+CFLAGS	=	-Wall -Werror -Wextra
 
 ifeq ($(shell uname), Linux)
 	ASMFLAGS += elf64
@@ -10,37 +8,24 @@ else
 	ASMFLAGS += macho64
 endif
 
-SRCS		=	main.s	\
+MAIN	=	./tests/main.c
 				
-OBJS		=	${addprefix $(OBJDIR), $(SRCS:%.s=%.o)}
-
-
 # ===== #
 
 
 all:			$(NAME)
 
-$(NAME):		$(OBJDIR) $(OBJS)
-				@make -C lib/
-				ld $(OBJDIR)main.o -Llib/ -lasm -lc -o $(NAME)
-
-bonus:			$(OBJDIR) $(OBJS)
-				# TODO
+$(NAME):
+				@make -C libasm/ bonus
+				$(CC) $(MAIN) -Llibasm/ -lasm -o $(NAME)
 
 clean:
-				@rm -rf $(OBJDIR)
-				@make -C lib/ clean
+				@make -C libasm/ clean
 
 fclean:			
-				@rm -rf $(NAME) $(OBJDIR)
-				@make -C lib/ fclean
+				@rm -rf $(NAME)
+				@make -C libasm/ fclean
 
 re:				fclean all
-
-$(OBJDIR)%.o:	$(SRCDIR)%.s
-				$(ASM) $(ASMFLAGS) $< -o $@
-
-$(OBJDIR):
-				@mkdir -p $(OBJDIR)
 
 .PHONY:			re clean fclean all
