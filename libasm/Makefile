@@ -1,7 +1,7 @@
 NAME		=	libasm.a
 AR			=	ar rsc
 ASM			=	nasm
-ASMFLAGS	=	-g -f
+ASMFLAGS	=	-f
 SRCDIR		=	./src/
 OBJDIR		=	./obj/
 BONUSDIR	=	./bonus/
