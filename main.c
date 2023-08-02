@@ -27,73 +27,61 @@ extern void		_ft_list_remove_if(t_list **begin_list, void *data_ref, int (*cmp)(
 ** THIS IS A TESTER
 */
 
-//Char compare used to test list functions
-int ccmp(char *a, char *b)
+void print_lst(t_list *head)
 {
-	return ((*(char *)a)-(*(char *)b));
+	while (head)
+	{
+		_ft_write(1, "[", 1);
+		_ft_write(1, head->data, _ft_strlen(head->data));
+		_ft_write(1, "]", 1);
+		head = head->next;
+	}
+	_ft_write(1, "\n", 1);
 }
 
 int main()
 {
 	char *s = _ft_strdup("VIVE L'ASM <3");
-	printf("%s\n", s);
+	printf("%s\n\n", s);
 	printf("Mystrlen[%zu]\nRealstrlen[%zu]\n", _ft_strlen(s), strlen(s));
 	printf("Mystrcmp[%d]\nRealstrcmp[%d]\n", _ft_strcmp(s, "OUI"), strcmp(s, "OUI"));
+
 	char buff[16] = {0};
-	printf("Write a string of max 16 char I'll read it and write it back to you\n");
+	printf("\nWrite a string of max 16 char I'll read it and write it back to you\n");
 	_ft_read(0, buff, 16);
 	printf("Reading..\n");
 	_ft_write(1, buff, 16);
-	printf("Time to test bonuses !\n");
+
+	printf("\nTime to test bonuses !\n");
 	printf("SHOULD BE '-15':[%d]\n", _ft_atoi_base("+-++f", "0123456789abcedf"));		//HEX
 	printf("SHOULD BE '255':[%d]\n", _ft_atoi_base("+-++-ff", "0123456789abcedf"));	//HEX
 	printf("SHOULD BE '-15':[%d]\n", _ft_atoi_base("        +-f", "0123456789abcedf"));//HEX
 	printf("SHOULD BE '29':[%d]\n", _ft_atoi_base("       ---+-++11101", "01"));		//BINARY
 	printf("SHOULD BE '0':[%d]\n", _ft_atoi_base("",""));
-	char *a = _ft_strdup("a");
-	char *b = _ft_strdup("b");
-	char *c = _ft_strdup("c");
-	char *d = _ft_strdup("d");
-	char *e = _ft_strdup("e");
-	t_list *lst = malloc(sizeof(t_list));
-	t_list **blst = &lst;
-	lst->data = a;
-	printf("SHOULD BE '1':[%d]\n", _ft_list_size(*blst));
-	_ft_list_push_front(blst, e);
-	_ft_list_push_front(blst, c);
-	_ft_list_push_front(blst, e);
-	_ft_list_push_front(blst, b);
-	_ft_list_push_front(blst, d);
-	t_list *tlst = lst;
-	printf("New size of the list = [%d]\n", _ft_list_size(lst));
+
+	t_list *lst = NULL;
+	_ft_list_push_front(&lst, _ft_strdup("a"));
+	printf("SHOULD BE '1':[%d]\n", _ft_list_size(lst));
+	_ft_list_push_front(&lst, _ft_strdup("e"));
+	_ft_list_push_front(&lst, _ft_strdup("c"));
+	_ft_list_push_front(&lst, _ft_strdup("e"));
+	_ft_list_push_front(&lst, _ft_strdup("b"));
+	_ft_list_push_front(&lst, _ft_strdup("d"));
+
+	printf("\nNew size of the list = [%d]\n", _ft_list_size(lst));
 	printf("Here's a display of the element's data in order\n");
 	printf("SHOULD BE [d][b][e][c][e][a]\n");
-	while (tlst)
-	{
-		printf("[%s]", (char *)tlst->data);
-		tlst = tlst->next;
-	}
-	printf("\n");
-	printf("SORTING LIST\n");
-	_ft_list_sort(blst, &ccmp);
-	tlst = lst;
-	while (tlst)
-	{
-		printf("[%s]", (char *)tlst->data);
-		tlst = tlst->next;
-	}
-	printf("\n");
-	printf("LIST SORTED\n");
+	print_lst(lst);
+
+	printf("\nSORTING LIST\n");
+	_ft_list_sort(&lst, &_ft_strcmp);
+	_ft_write(1, "LIST SORTED: ", 13);
+	print_lst(lst);
 	printf("SHOULD BE [a][b][c][d][e][e]\n");
-	printf("Removing elements with data 'c'\n");
-	_ft_list_remove_if(blst, c, &ccmp, &free);
-	tlst = lst;
-	while (tlst)
-	{
-		printf("[%s]", (char *)tlst->data);
-		tlst = tlst->next;
-	}
-	printf("\n");
+
+	printf("\nRemoving elements with data 'c'\n");
+	_ft_list_remove_if(&lst, "c", &_ft_strcmp, &free);
+	print_lst(lst);
 	printf("SHOULD BE [a][b][d][e][e]\n");
-	printf("By now you should understand that my lib works :D !\n");
+	printf("\nBy now you should understand that my lib works :D !\n");
 }

@@ -23,59 +23,80 @@ _ft_list_remove_if:
 
 	push rbp
 	mov rbp, rsp
-	sub rsp, 24
+	sub rsp, 32
 	mov QWORD [rsp], rdi
-	mov QWORD [rsp + 8], rdx
-	mov QWORD [rsp + 16], rcx
+	mov QWORD [rsp + 8], rsi
+	mov QWORD [rsp + 16], rdx
+	mov QWORD [rsp + 24], rcx
 
 	mov r10, QWORD [rdi]		; r10 = *begin_list
 
 .rm_loop:
-	cmp r10, 0
+	cmp r10, 0					; r10 == 0
 	je .rm_begin
 	mov r11, QWORD [r10 + 8]	; r11 = r10->next
-	cmp r11, 0
+	cmp r11, 0					; r11 == 0
 	je .rm_begin
 
+	mov rdx, QWORD [rsp + 16]	; rdx = cmp
+	mov rsi, QWORD [rsp + 8]	; rsi = data_ref
 	mov rdi, QWORD [r11]		; rdi = r11->data
-	mov rdx, QWORD [rsp + 8]	; rdx = cmp
+	push r10
+	push r11
 	call rdx
+	pop r11
+	pop r10
 	cmp eax, 0
 	jne .increment_ptr
 
-	mov rdx, QWORD [r11 + 8]
-	mov QWORD [r10 + 8], rdx	; r10->next = r11->next
+	mov rax, QWORD [r11 + 8]	; rax = r11->next
+	mov QWORD [r10 + 8], rax	; r10->next = rax
+
 	; remove
-	mov rcx, QWORD [rsp + 16]	; rcx = free_fct
+	mov rcx, QWORD [rsp + 24]	; rcx = free_fct
+	mov rdi, QWORD [r11]		; rdi = r11->data
+	push r10
 	push r11
 	call rcx
+
 	pop rdi
 	call free wrt ..plt
+	pop r10
+	jmp .rm_loop
 
 .increment_ptr:
 	mov r10, QWORD [r10 + 8]	; r10 = r10->next
 	jmp .rm_loop
 
 .rm_begin:
-	mov r11, QWORD [rsp]		;
-	mov r10, QWORD [r11]		; r10 = *begin_list
-	mov rdx, QWORD [rsp + 8]	; rdx = cmp
-	mov rdi, QWORD [r10]
+	mov r11, QWORD [rsp]		; r11 = begin_list
+	mov r10, QWORD [r11]		; r10 = *r11
+
+	mov rdx, QWORD [rsp + 16]	; rdx = cmp
+	mov rsi, QWORD [rsp + 8]	; rsi = data_ref
+	mov rdi, QWORD [r10]		; rdi = r10->data
+	push r10
+	push r11
 	call rdx
+	pop r11
+	pop r10
 	cmp eax, 0
 	jne .restore_stack
 
-	mov rax, QWORD [r10 + 8]	;
-	mov QWORD [r11], rax		; *begin_list = (*begin_list)->next
+	mov rax, QWORD [r10 + 8]	; rax = r10->next
+	mov QWORD [r11], rax		; *begin_list = rax
 
-	mov rcx, QWORD [rsp + 16]	; rdx = free_fct
+	; remove
+	mov rcx, QWORD [rsp + 24]	; rcx = free_fct
+	mov rdi, QWORD [r10]		; rdi = r10->data
 	push r10
 	call rcx
+
 	pop rdi
 	call free wrt ..plt
 
 .restore_stack:
-	add rsp, 24
+	add rsp, 32
 	pop rbp
 
 .endfunc:
