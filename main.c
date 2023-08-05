@@ -62,6 +62,7 @@ int main()
 	t_list *lst = NULL;
 	_ft_list_push_front(&lst, _ft_strdup("a"));
 	printf("SHOULD BE '1':[%d]\n", _ft_list_size(lst));
+
 	_ft_list_push_front(&lst, _ft_strdup("e"));
 	_ft_list_push_front(&lst, _ft_strdup("c"));
 	_ft_list_push_front(&lst, _ft_strdup("e"));
@@ -69,9 +70,9 @@ int main()
 	_ft_list_push_front(&lst, _ft_strdup("d"));
 
 	printf("\nNew size of the list = [%d]\n", _ft_list_size(lst));
-	printf("Here's a display of the element's data in order\n");
-	printf("SHOULD BE [d][b][e][c][e][a]\n");
+	_ft_write(1, "CURRENTLY: ", 11);
 	print_lst(lst);
+	printf("SHOULD BE [d][b][e][c][e][a]\n");
 
 	printf("\nSORTING LIST\n");
 	_ft_list_sort(&lst, &_ft_strcmp);
@@ -83,5 +84,6 @@ int main()
 	_ft_list_remove_if(&lst, "c", &_ft_strcmp, &free);
 	print_lst(lst);
 	printf("SHOULD BE [a][b][d][e][e]\n");
+
 	printf("\nBy now you should understand that my lib works :D !\n");
 }

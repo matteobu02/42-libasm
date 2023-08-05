@@ -5,12 +5,14 @@ global _ft_list_sort
 section .text
 
 _ft_list_sort:
+	push rbx
+	mov rbx, rsi				; rbx = cmp
+
 	cmp rdi, 0
 	je .endfunc
 	cmp rsi, 0
 	je .endfunc
 
-	mov rdx, rsi				; rdx = cmp
 	mov r10, QWORD [rdi]		; r10 = *begin_list
 
 .first_loop:
@@ -24,9 +26,11 @@ _ft_list_sort:
 
 	mov rdi, QWORD [r10]		; rdi = r10->data
 	mov rsi, QWORD [r11]		; rsi = r11->data
-	push rdx
-	call rdx
-	pop rdx
+	push r10
+	push r11
+	call rbx
+	pop r11
+	pop r10
 	cmp eax, 0
 	jg .swap_ptr
 
@@ -45,4 +49,5 @@ _ft_list_sort:
 	jmp .incr_second
 
 .endfunc:
+	pop rbx
 	ret

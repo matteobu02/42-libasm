@@ -1,13 +1,6 @@
 NAME	=	test
 CC		=	gcc
 CFLAGS	=	-Wall -Werror -Wextra -z noexecstack
-
-ifeq ($(shell uname), Linux)
-	ASMFLAGS += elf64
-else
-	ASMFLAGS += macho64
-endif
-
 MAIN	=	./main.c
 
 
