@@ -3,6 +3,7 @@
 #include <fcntl.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <errno.h>
 
 typedef struct	s_list
 {
@@ -13,8 +14,8 @@ typedef struct	s_list
 extern size_t	_ft_strlen(char *str);
 extern char		*_ft_strcpy(char *dst, char *src);
 extern int		_ft_strcmp(const char *dst, const char *src);
-extern int		_ft_write(int fd, const void *buff, size_t bsize);
-extern int		_ft_read(int fd, void *buff, size_t bsize);
+extern ssize_t	_ft_write(int fd, const void *buff, size_t bsize);
+extern ssize_t	_ft_read(int fd, void *buff, size_t bsize);
 extern char		*_ft_strdup(const char *str);
 
 extern int		_ft_atoi_base(const char *str, const char *base);
@@ -41,22 +42,60 @@ void print_lst(t_list *head)
 
 int main()
 {
-	char *s = _ft_strdup("VIVE L'ASM <3");
-	printf("%s\n\n", s);
-	printf("Mystrlen[%zu]\nRealstrlen[%zu]\n", _ft_strlen(s), strlen(s));
-	printf("Mystrcmp[%d]\nRealstrcmp[%d]\n", _ft_strcmp(s, "OUI"), strcmp(s, "OUI"));
+	char buff[200] = {0};
+	printf("===== READ: =====\n");
+	printf("my bad read:  %ld\n", _ft_read(-1, buff, 0));
+	printf("errno: %d\n", errno);
+	printf("sys bad read: %ld\n", read(-1, buff, 0));
+	printf("errno: %d\n", errno);
 
-	char buff[16] = {0};
-	printf("\nWrite a string of max 16 char I'll read it and write it back to you\n");
-	_ft_read(0, buff, 16);
-	printf("Reading..\n");
-	_ft_write(1, buff, 16);
+	char s1[200] = {0};
+	write(1, "type a big string (max 200): ", 29);
+	printf("my read: %ld\n", _ft_read(0, s1, 200));
 
-	printf("\nTime to test bonuses !\n");
-	printf("SHOULD BE '-15':[%d]\n", _ft_atoi_base("+-++f", "0123456789abcedf"));		//HEX
-	printf("SHOULD BE '255':[%d]\n", _ft_atoi_base("+-++-ff", "0123456789abcedf"));	//HEX
-	printf("SHOULD BE '-15':[%d]\n", _ft_atoi_base("        +-f", "0123456789abcedf"));//HEX
-	printf("SHOULD BE '29':[%d]\n", _ft_atoi_base("       ---+-++11101", "01"));		//BINARY
+
+	printf("\n===== WRITE: =====\n");
+	printf("my bad write:  %ld\n", _ft_write(-1, s1, 10));
+	printf("errno: %d\n", errno);
+	printf("sys bad write: %ld\n", write(-1, s1, 10));
+	printf("errno: %d\n", errno);
+
+	printf("\nthe string you typed earlier:\n");
+	ssize_t my_write = _ft_write(1, s1, strlen(s1));
+	ssize_t original = write(1, s1, strlen(s1));
+	printf("my write:  %ld\n", my_write);
+	printf("sys write: %ld\n", original);
+
+
+	char s2[] = "";
+	printf("\n===== STRLEN: =====\n");
+	printf("my strlen:  %ld\n", _ft_strlen(s2));
+	printf("sys strlen: %ld\n", strlen(s2));
+	printf("my strlen:  %ld\n", _ft_strlen(s1));
+	printf("sys strlen: %ld\n", strlen(s1));
+
+
+	printf("\n===== STRCPY: =====\n");
+	printf("my strcpy:  %s\n", _ft_strcpy(buff, s2));
+	printf("sys strcpy: %s\n", strcpy(buff, s2));
+	printf("my strcpy:  %s", _ft_strcpy(buff, s1));
+	printf("sys strcpy: %s", strcpy(buff, s1));
+
+
+	printf("\n===== STRDUP: =====\n");
+	printf("my strdup:  %s\n", _ft_strdup(s2));
+	printf("sys strdup: %s\n", strdup(s2));
+	printf("my strdup:  %s", _ft_strdup(s1));
+	printf("sys strdup: %s", strdup(s1));
+
+	/* BONUS */
+
+	printf("\n\n***** BONUSES: *****\n\n");
+	printf("\n===== ATOI_BASE: =====\n");
+	printf("SHOULD BE '-15':[%d]\n", _ft_atoi_base("+-++f", "0123456789abcedf"));
+	printf("SHOULD BE '255':[%d]\n", _ft_atoi_base("+-++-ff", "0123456789abcedf"));
+	printf("SHOULD BE '-15':[%d]\n", _ft_atoi_base("        +-f", "0123456789abcedf"));
+	printf("SHOULD BE '29':[%d]\n", _ft_atoi_base("       ---+-++11101", "01"));
 	printf("SHOULD BE '0':[%d]\n", _ft_atoi_base("",""));
 
 	t_list *lst = NULL;

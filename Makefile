@@ -9,7 +9,7 @@ MAIN	=	./main.c
 
 all:			$(NAME)
 
-$(NAME):
+$(NAME):		$(MAIN)
 				@make -C libasm/ bonus
 				$(CC) $(CFLAGS) $(MAIN) -Llibasm/ -lasm -o $(NAME)
 

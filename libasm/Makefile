@@ -1,16 +1,10 @@
 NAME		=	libasm.a
 AR			=	ar rsc
 ASM			=	nasm
-ASMFLAGS	=	-f
+ASMFLAGS	=	-f elf64
 SRCDIR		=	./src/
 OBJDIR		=	./obj/
 BONUSDIR	=	./bonus/
-
-ifeq ($(shell uname), Linux)
-	ASMFLAGS += elf64
-else
-	ASMFLAGS += macho64
-endif
 
 SRC		=	ft_strlen.s	\
 			ft_strcpy.s	\

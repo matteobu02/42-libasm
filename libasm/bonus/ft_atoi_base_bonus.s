@@ -91,7 +91,7 @@ _ft_atoi_base:
 	jmp .calculate
 
 .set_sign:
-	imul r10d, -1
+	neg r10d
 	jmp .read_signs
 
 .base_invalid:

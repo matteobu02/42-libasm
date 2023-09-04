@@ -1,23 +1,22 @@
 ; int read(int fd, void *buf, size_t count);
 
 global _ft_read
-extern __errno_location ; ___error
+extern __errno_location
 
 section .text
 
 _ft_read:
-	xor rax, rax ; mov rax, 0x2000003
+	xor rax, rax
 	syscall
-	jnc .endfunc
+	cmp rax, 0
+	jnl .endfunc
 
 	; ERROR
-	push rax
-	call __errno_location wrt ..plt ; ___error
+	imul rax, -1
 	mov rdx, rax
-	pop rax
-	mov DWORD [rdx], eax
-	mov eax, -1
+	call __errno_location wrt ..plt
+	mov [rax], rdx
+	mov rax, -1
 
 .endfunc:
 	ret
-
