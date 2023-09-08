@@ -12,7 +12,7 @@ _ft_read:
 	jnl .endfunc
 
 	; ERROR
-	imul rax, -1
+	neg rax
 	mov rdx, rax
 	call __errno_location wrt ..plt
 	mov [rax], rdx
